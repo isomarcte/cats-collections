@@ -75,6 +75,22 @@ sealed abstract private[collections] class InverseInstances extends InverseInsta
       override def maxBound: Inverse[A] =
         Inverse(A.minBound)
     }
+
+  implicit def previousForInverse[A](implicit A0: Next[A], A1: PartialOrder[Inverse[A]]): Previous[Inverse[A]] =
+    new Previous[Inverse[A]] {
+      override def partialOrder: PartialOrder[Inverse[A]] = A1
+
+      override def previous(a: Inverse[A]): Inverse[A] =
+        Inverse(A0.next(a.value))
+    }
+
+  implicit def nextForInverse[A](implicit A0: Previous[A], A1: PartialOrder[Inverse[A]]): Next[Inverse[A]] =
+    new Next[Inverse[A]] {
+      override def partialOrder: PartialOrder[Inverse[A]] = A1
+
+      override def next(a: Inverse[A]): Inverse[A] =
+        Inverse(A0.previous(a.value))
+    }
 }
 
 sealed private[collections] trait InverseInstances0 extends InverseInstances1 {
