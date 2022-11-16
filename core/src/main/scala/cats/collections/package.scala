@@ -41,4 +41,26 @@ package object collections {
       Eq[A].eqv(i1.next(), i2.next()) && iteratorEq(i1, i2)
   }
 
+  /** Inverse is a data type which exists merely to invert the `Order`,
+    * `PartialOrder`, `UpperBounded`, and `LowerBounded` instances for some
+    * type `A`. In some languages this type is called `Down`.
+    *
+    * {{{
+    * scala> import cats.data._
+    * import cats.data._
+    *
+    * scala> import scala.collection.immutable.SortedSet
+    * import scala.collection.immutable.SortedSet
+    *
+    * scala> SortedSet(1, 2, 3)
+    * val res0: scala.collection.immutable.SortedSet[Int] = TreeSet(1, 2, 3)
+    *
+    * scala> res0.map(Inverse.apply)
+    * val res1: scala.collection.immutable.SortedSet[cats.data.Inverse[Int]] = TreeSet(3, 2, 1)
+    * }}}
+    *
+    * @see [[https://hackage.haskell.org/package/base-4.6.0.1/docs/Data-Ord.html#Down]]
+    */
+  type Inverse[A] = InverseImpl.Type[A]
+  val Inverse = InverseImpl
 }
